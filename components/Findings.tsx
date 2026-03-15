@@ -59,9 +59,11 @@ export function Findings() {
                   <p className="text-[13px] text-[var(--muted)] leading-relaxed mb-3">
                     {finding.description}
                   </p>
-                  <p className="text-[12px] text-[var(--muted)] leading-relaxed border-l-2 border-[var(--border)] pl-3">
-                    {finding.why}
-                  </p>
+                  {finding.why && (
+                    <p className="text-[12px] text-[var(--muted)] leading-relaxed border-l-2 border-[var(--border)] pl-3">
+                      {finding.why}
+                    </p>
+                  )}
                 </div>
 
                 <div className="border-t border-[var(--border)] pt-4">

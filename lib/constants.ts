@@ -85,7 +85,7 @@ export const FINDINGS = [
     potential: '$0 cost → unlimited revenue ceiling',
     description:
       'deploy a permissionless builder code on Hyperliquid. every trade executed through Liquid Terminal earns a fraction of trading fees automatically. no VC, no permission, no capital required. proof of concept: BasedApp — $14M revenue. ecosystem: $844M annual fees in 2025.',
-    why: 'liquid terminal already has users. adding a builder code is the lowest-cost, highest-ceiling revenue mechanism available.',
+    why: '',
   },
   {
     id: '002',
