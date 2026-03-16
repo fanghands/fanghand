@@ -6,7 +6,7 @@ import { CopyAddress } from '@/components/ui/CopyAddress'
 
 export function TokenSection() {
   return (
-    <section className="px-4 py-20 max-w-2xl mx-auto w-full">
+    <section className="w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

@@ -8,10 +8,19 @@ interface VoteCardProps {
   voteCount: number
   totalVotes: number
   hasVoted: boolean
+  accentColor?: string
   onVote: () => void
 }
 
-export function VoteCard({ id, title, voteCount, totalVotes, hasVoted, onVote }: VoteCardProps) {
+export function VoteCard({
+  id,
+  title,
+  voteCount,
+  totalVotes,
+  hasVoted,
+  accentColor = 'var(--green)',
+  onVote,
+}: VoteCardProps) {
   const percentage = totalVotes > 0 ? Math.round((voteCount / totalVotes) * 100) : 0
 
   return (
@@ -22,7 +31,9 @@ export function VoteCard({ id, title, voteCount, totalVotes, hasVoted, onVote }:
           <div className="text-[var(--white)] text-sm">{title}</div>
         </div>
         <div className="text-right shrink-0">
-          <div className="text-[var(--green)] text-lg font-medium">{voteCount.toLocaleString()}</div>
+          <div className="text-lg font-medium" style={{ color: accentColor }}>
+            {voteCount.toLocaleString()}
+          </div>
           <div className="text-[11px] text-[var(--muted)]">votes</div>
         </div>
       </div>
@@ -32,9 +43,10 @@ export function VoteCard({ id, title, voteCount, totalVotes, hasVoted, onVote }:
           <span>vote weight</span>
           <span>{percentage}%</span>
         </div>
-        <div className="h-1 bg-[var(--muted-2)] w-full">
+        <div className="h-1.5 bg-[var(--muted-2)] w-full rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-[var(--green)]"
+            className="h-full rounded-full"
+            style={{ backgroundColor: accentColor }}
             initial={{ width: 0 }}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -45,13 +57,26 @@ export function VoteCard({ id, title, voteCount, totalVotes, hasVoted, onVote }:
       <button
         onClick={onVote}
         disabled={hasVoted}
-        className={`w-full py-2 px-4 text-[13px] border transition-colors duration-150 cursor-pointer ${
+        className="w-full py-2 px-4 text-[13px] border transition-colors duration-150 cursor-pointer"
+        style={
           hasVoted
-            ? 'border-[var(--muted-2)] text-[var(--muted)] cursor-not-allowed'
-            : 'border-[var(--green)] text-[var(--green)] hover:bg-[var(--green)] hover:text-black'
-        }`}
+            ? { borderColor: 'var(--muted-2)', color: 'var(--muted)', cursor: 'not-allowed' }
+            : { borderColor: accentColor, color: accentColor }
+        }
+        onMouseEnter={(e) => {
+          if (!hasVoted) {
+            e.currentTarget.style.backgroundColor = accentColor
+            e.currentTarget.style.color = 'black'
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!hasVoted) {
+            e.currentTarget.style.backgroundColor = 'transparent'
+            e.currentTarget.style.color = accentColor
+          }
+        }}
       >
-        {hasVoted ? '[voted ✓]' : '[cast vote]'}
+        {hasVoted ? '[voted]' : '[cast vote]'}
       </button>
     </div>
   )

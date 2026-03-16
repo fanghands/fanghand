@@ -1,16 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HERO_LINES } from '@/lib/constants'
 
-const CHAR_INTERVAL = 60
+const CHAR_INTERVAL = 18
 
 export function Hero() {
   const [displayedLines, setDisplayedLines] = useState<string[]>([''])
   const [currentLine, setCurrentLine] = useState(0)
   const [currentChar, setCurrentChar] = useState(0)
   const [done, setDone] = useState(false)
+
+  const skip = useCallback(() => {
+    if (!done) {
+      setDisplayedLines([...HERO_LINES])
+      setDone(true)
+    }
+  }, [done])
 
   useEffect(() => {
     if (done) return
@@ -29,23 +36,25 @@ export function Hero() {
       }, CHAR_INTERVAL)
       return () => clearTimeout(timer)
     } else {
-      // line complete
       if (currentLine < HERO_LINES.length - 1) {
         const timer = setTimeout(() => {
           setCurrentLine((l) => l + 1)
           setCurrentChar(0)
           setDisplayedLines((prev) => [...prev, ''])
-        }, 200)
+        }, 80)
         return () => clearTimeout(timer)
       } else {
-        const timer = setTimeout(() => setDone(true), 400)
+        const timer = setTimeout(() => setDone(true), 200)
         return () => clearTimeout(timer)
       }
     }
   }, [currentLine, currentChar, done])
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20">
+    <section
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-20 cursor-pointer"
+      onClick={skip}
+    >
       <div className="w-full max-w-2xl">
         {/* Terminal output */}
         <div className="mb-10">
@@ -59,6 +68,9 @@ export function Hero() {
           ))}
           {done && (
             <span className="animate-blink text-[var(--green)]">█</span>
+          )}
+          {!done && (
+            <div className="mt-4 text-[11px] text-[var(--muted-2)]">click to skip</div>
           )}
         </div>
 

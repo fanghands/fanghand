@@ -4,9 +4,18 @@ import { motion } from 'framer-motion'
 import { TOKENOMICS_STEPS, BURN_TX_FULL, BURN_TX_SHORT } from '@/lib/constants'
 import { CopyAddress } from '@/components/ui/CopyAddress'
 
+const STEP_COLORS = [
+  'var(--blue)',
+  'var(--purple)',
+  'var(--cyan)',
+  'var(--red)',
+  'var(--amber)',
+  'var(--green)',
+]
+
 export function Tokenomics() {
   return (
-    <section className="px-4 py-20 max-w-2xl mx-auto w-full">
+    <section className="w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -27,13 +36,20 @@ export function Tokenomics() {
                 transition={{ duration: 0.35, delay: i * 0.15 }}
                 className="flex flex-col items-center"
               >
-                <div className="border border-[var(--border)] px-4 py-2 text-[13px] text-[var(--white)] text-center max-w-xs w-full hover:border-[var(--border-active)] transition-colors duration-200">
+                <div
+                  className="border px-4 py-2 text-[13px] text-center max-w-xs w-full transition-colors duration-200"
+                  style={{
+                    borderColor: STEP_COLORS[i],
+                    color: STEP_COLORS[i],
+                    backgroundColor: `${STEP_COLORS[i]}10`,
+                  }}
+                >
                   {step}
                 </div>
                 {i < TOKENOMICS_STEPS.length - 1 && (
-                  <div className="flex flex-col items-center py-1 text-[var(--muted)]">
-                    <span className="text-[11px] leading-none">│</span>
-                    <span className="text-[11px] leading-none">▼</span>
+                  <div className="flex flex-col items-center py-1" style={{ color: STEP_COLORS[i] }}>
+                    <span className="text-[11px] leading-none">|</span>
+                    <span className="text-[11px] leading-none">v</span>
                   </div>
                 )}
               </motion.div>

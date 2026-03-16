@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import { FINDINGS } from '@/lib/constants'
 import { VoteCard } from '@/components/ui/VoteCard'
 
-const INITIAL_VOTES = [847, 623, 412]
+const INITIAL_VOTES = [0, 0, 0]
 const STORAGE_KEY = 'fanghand_voted'
+
+const VOTE_COLORS = ['var(--green)', 'var(--blue)', 'var(--amber)']
 
 export function VoteSection() {
   const [votes, setVotes] = useState(INITIAL_VOTES)
@@ -44,7 +46,7 @@ export function VoteSection() {
   const totalVotes = votes.reduce((a, b) => a + b, 0)
 
   return (
-    <section id="vote" className="px-4 py-20 max-w-2xl mx-auto w-full">
+    <section id="vote" className="w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -65,6 +67,7 @@ export function VoteSection() {
               voteCount={votes[i]}
               totalVotes={totalVotes}
               hasVoted={votedIndex !== null}
+              accentColor={VOTE_COLORS[i]}
               onVote={() => handleVote(i)}
             />
           ))}
