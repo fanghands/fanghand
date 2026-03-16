@@ -39,25 +39,25 @@ export function AnnouncementBanner() {
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="fixed bottom-12 left-4 right-4 z-[90] flex justify-center pointer-events-none"
         >
-          <div className="pointer-events-auto w-full max-w-lg border border-[var(--green)] bg-[var(--bg)] shadow-[0_0_30px_rgba(0,255,136,0.08)]">
-            {/* green accent bar */}
-            <div className="h-0.5 w-full bg-[var(--green)]" />
+          <div className="pointer-events-auto w-full max-w-lg border border-[var(--amber)] bg-[var(--bg)] shadow-[0_0_30px_rgba(245,158,11,0.08)]">
+            {/* accent bar */}
+            <div className="h-0.5 w-full bg-[var(--amber)]" />
 
             <div className="px-5 py-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="text-[11px] text-[var(--green)] mb-1">NEW</div>
+                  <div className="text-[11px] text-[var(--amber)] mb-1">COMING SOON</div>
                   <div className="text-[var(--white)] text-[14px] font-medium mb-1">
-                    FangHands Marketplace is live
+                    FangHands Marketplace
                   </div>
                   <p className="text-[12px] text-[var(--muted)] leading-relaxed mb-3">
-                    browse autonomous Hands, activate agents, earn $FGH. community builders welcome.
+                    autonomous Hands built on OpenFang. browse, activate, earn $FGH. arriving soon.
                   </p>
                   <a
                     href="/marketplace"
-                    className="inline-block px-4 py-1.5 text-[12px] border border-[var(--green)] text-[var(--green)] hover:bg-[var(--green)] hover:text-black transition-colors duration-150 cursor-pointer"
+                    className="inline-block px-4 py-1.5 text-[12px] border border-[var(--muted-2)] text-[var(--muted)] hover:border-[var(--border-active)] hover:text-[var(--white)] transition-colors duration-150 cursor-pointer"
                   >
-                    [explore marketplace →]
+                    [preview →]
                   </a>
                 </div>
                 <button

@@ -17,9 +17,9 @@ export function MarketplacePreview() {
         viewport={{ once: true }}
         transition={{ duration: 0.4 }}
       >
-        <div className="section-title">marketplace.preview()</div>
+        <div className="section-title">marketplace.preview() — coming soon</div>
         <p className="text-[12px] text-[var(--muted)] mb-6">
-          browse autonomous Hands built on OpenFang. activate one. it works while you sleep.
+          autonomous Hands built on OpenFang. the marketplace is under construction.
         </p>
 
         {/* stats */}
@@ -30,8 +30,8 @@ export function MarketplacePreview() {
           <span className="border border-[var(--border)] px-3 py-1.5 text-[var(--white)]">
             {totalActivations.toLocaleString()} activations
           </span>
-          <span className="border border-[var(--green)] px-3 py-1.5 text-[var(--green)]">
-            revenue share: active
+          <span className="border border-[var(--amber)] px-3 py-1.5 text-[var(--amber)]">
+            status: coming soon
           </span>
         </div>
 
@@ -68,7 +68,7 @@ export function MarketplacePreview() {
           href="/marketplace"
           className="inline-block px-5 py-2.5 text-[13px] border border-[var(--green)] text-[var(--green)] hover:bg-[var(--green)] hover:text-black transition-colors duration-150 cursor-pointer"
         >
-          [explore all {totalHands} hands →]
+          [preview marketplace →]
         </a>
       </motion.div>
     </section>
