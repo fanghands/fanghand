@@ -89,20 +89,9 @@ export function HandCard({ hand, index, onViewToml }: HandCardProps) {
         >
           [view HAND.toml]
         </button>
-        {hand.pending ? (
-          <span className="px-3 py-1.5 text-[12px] border border-[var(--muted-2)] text-[var(--muted)] cursor-not-allowed">
-            [pending activation]
-          </span>
-        ) : (
-          <a
-            href="https://github.com/RightNow-AI/openfang"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1.5 text-[12px] border border-[var(--green)] text-[var(--green)] hover:bg-[var(--green)] hover:text-black transition-colors duration-150 cursor-pointer"
-          >
-            [activate →]
-          </a>
-        )}
+        <span className="px-3 py-1.5 text-[12px] border border-[var(--muted-2)] text-[var(--muted)] cursor-not-allowed">
+          [coming soon]
+        </span>
       </div>
     </motion.div>
   )

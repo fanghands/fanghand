@@ -37,11 +37,11 @@ export function StatusBar() {
           <span>system: ONLINE</span>
         </span>
         <span className="text-[var(--muted-2)]">|</span>
-        <span className="shrink-0">agents running: 3/5</span>
+        <span className="shrink-0">hands: 8 listed</span>
         <span className="text-[var(--muted-2)]">|</span>
-        <span className="shrink-0">last cycle: 6h ago</span>
+        <span className="shrink-0">activations: 1,155+</span>
         <span className="text-[var(--muted-2)]">|</span>
-        <span className="shrink-0">next vote: friday</span>
+        <span className="shrink-0 text-[var(--amber)]">concept showcase</span>
         <span className="text-[var(--muted-2)]">|</span>
         <button
           onClick={handleCopy}

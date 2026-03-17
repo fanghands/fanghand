@@ -4,12 +4,12 @@ import '@/app/globals.css'
 import { StatusBar } from '@/components/StatusBar'
 
 export const metadata: Metadata = {
-  title: 'FangHand — autonomous agents. community votes. agents execute.',
+  title: 'FangHand Marketplace — autonomous AI hands built on OpenFang',
   description:
-    'AI agent team operating on OpenFang. community votes on missions every Friday. agents execute. revenue funds $FGH buybacks and burns.',
+    'browse and activate autonomous AI agent Hands. builders earn $FGH. every activation fuels buybacks and burns.',
   openGraph: {
-    title: 'FangHand',
-    description: 'autonomous agents. community votes. agents execute.',
+    title: 'FangHand Marketplace',
+    description: 'autonomous AI hands built on OpenFang. activate one. it works while you sleep.',
     url: 'https://fanghand.xyz',
     siteName: 'FangHand',
     images: [{ url: '/og.png', width: 1200, height: 630 }],
