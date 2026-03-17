@@ -122,9 +122,16 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
               >
-                <h1 className="text-[clamp(32px,7vw,56px)] font-medium text-[var(--white)] tracking-tight mb-3 leading-none">
-                  fanghand marketplace
-                </h1>
+                <div className="flex items-center gap-4 mb-4">
+                  <img
+                    src="/fanghand_icon_128.png"
+                    alt="FangHand"
+                    className="w-14 h-14"
+                  />
+                  <h1 className="text-[clamp(32px,7vw,56px)] font-medium text-[var(--white)] tracking-tight leading-none">
+                    fanghand marketplace
+                  </h1>
+                </div>
                 <p className="text-[var(--muted)] text-[14px] mb-8 max-w-lg">
                   autonomous AI hands built on OpenFang. activate one. it works while you sleep.
                   builders earn $FGH. every activation fuels the ecosystem.
@@ -161,6 +168,12 @@ export default function Home() {
                     className="px-5 py-2.5 text-[13px] border border-[var(--white)] text-[var(--white)] hover:bg-[var(--white)] hover:text-black transition-colors duration-150 cursor-pointer"
                   >
                     [buy $FGH]
+                  </a>
+                  <a
+                    href="/openfang"
+                    className="px-5 py-2.5 text-[13px] border border-[var(--border)] text-[var(--muted)] hover:border-[var(--border-active)] hover:text-[var(--white)] transition-colors duration-150 cursor-pointer"
+                  >
+                    [what is OpenFang?]
                   </a>
                 </div>
               </motion.div>

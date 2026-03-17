@@ -25,7 +25,10 @@ export default function MarketplacePage() {
     <main className="pb-14">
       {/* header bar */}
       <div className="px-4 py-3 max-w-6xl mx-auto w-full flex items-center justify-between text-[12px] border-b border-[var(--border)]">
-        <span className="text-[var(--muted)]">marketplace.fanghand.xyz</span>
+        <span className="flex items-center gap-2 text-[var(--muted)]">
+          <img src="/fanghand_icon_128.png" alt="FangHand" className="w-4 h-4" />
+          marketplace.fanghand.xyz
+        </span>
         <a
           href="/"
           className="text-[var(--muted)] hover:text-[var(--white)] transition-colors duration-150"

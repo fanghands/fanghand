@@ -20,6 +20,15 @@ export const metadata: Metadata = {
     creator: '@fanghandx',
   },
   metadataBase: new URL('https://fanghand.xyz'),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/fanghand_favicon_16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/fanghand_favicon_32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/fanghand_favicon_48.png', sizes: '48x48', type: 'image/png' },
+    ],
+    apple: { url: '/fanghand_icon_128.png', sizes: '128x128' },
+  },
   robots: {
     index: true,
     follow: true,
