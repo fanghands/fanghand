@@ -1,4 +1,7 @@
 import type { Metadata } from 'next'
+import { QueryProvider } from '@/providers/QueryProvider'
+import { AuthProvider } from '@/providers/AuthProvider'
+import { ToastProvider } from '@/providers/ToastProvider'
 
 export const metadata: Metadata = {
   title: 'FangHands Marketplace — autonomous Hands for OpenFang',
@@ -7,5 +10,13 @@ export const metadata: Metadata = {
 }
 
 export default function MarketplaceLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <QueryProvider>
+      <AuthProvider>
+        <ToastProvider>
+          {children}
+        </ToastProvider>
+      </AuthProvider>
+    </QueryProvider>
+  )
 }
