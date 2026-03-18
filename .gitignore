@@ -25,3 +25,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# internal docs (not for public repo)
+fanghand_frontend_technical.md
+fanghand_backend_technical.md
+*.md:Zone.Identifier
+*:Zone.Identifier
+
+# brand kit (assets managed separately)
+fanghand-brand-kit/
