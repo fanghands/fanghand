@@ -86,13 +86,19 @@ function MatrixRain() {
 function TerminalTopBar() {
   return (
     <div className="sticky top-0 z-40 h-9 flex items-center px-4 gap-3 bg-[var(--surface)] border-b border-[var(--border)]">
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5 shrink-0">
         <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
         <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
         <span className="w-3 h-3 rounded-full bg-[#28c840]" />
       </div>
       <span className="text-[12px] text-[var(--muted)] ml-2">fanghand-cli — bash</span>
-      <span className="animate-blink text-[var(--green)] text-[12px] ml-auto">▊</span>
+      <nav className="flex items-center gap-4 ml-auto text-[12px]">
+        <a href="/marketplace" className="text-[var(--green)] hover:text-[var(--white)] transition-colors duration-100">[marketplace]</a>
+        <a href="/dashboard" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">[dashboard]</a>
+        <a href="/builders" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">[builders]</a>
+        <a href="/login" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">[connect]</a>
+      </nav>
+      <span className="animate-blink text-[var(--green)] text-[12px] ml-3 shrink-0">▊</span>
     </div>
   )
 }
@@ -270,10 +276,10 @@ function Footer() {
           <div>
             <div className="text-[11px] text-[var(--muted)] uppercase tracking-widest mb-4">Product</div>
             <div className="flex flex-col gap-2 text-[12px]">
-              <a href="#hands" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">Marketplace</a>
-              <span className="text-[var(--muted-2)]">Pay-Per-Run</span>
-              <span className="text-[var(--muted-2)]">For Builders</span>
-              <span className="text-[var(--muted-2)]">Pricing</span>
+              <a href="/marketplace" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">Marketplace</a>
+              <a href="/dashboard/runs/new" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">Pay-Per-Run</a>
+              <a href="/builders" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">For Builders</a>
+              <a href="/marketplace" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">Pricing</a>
               <a href="/openfang" className="text-[var(--muted)] hover:text-[var(--green)] transition-colors duration-100">Docs</a>
             </div>
           </div>
@@ -481,10 +487,10 @@ export default function Home() {
                   {/* CTAs */}
                   <div className="flex flex-wrap gap-3">
                     <a
-                      href="#hands"
+                      href="/marketplace"
                       className="px-5 py-2.5 text-[13px] border-2 border-[var(--green)] text-[var(--green)] hover:bg-[var(--green)] hover:text-black transition-colors duration-150 cursor-crosshair"
                     >
-                      [browse hands]
+                      [marketplace]
                     </a>
                     <a
                       href={`https://pump.fun/coin/${CONTRACT_ADDRESS}`}
