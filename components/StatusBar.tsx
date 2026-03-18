@@ -45,7 +45,7 @@ export function StatusBar() {
         <span className="text-[var(--muted-2)]">|</span>
         <button
           onClick={handleCopy}
-          className="shrink-0 flex items-center gap-1.5 hover:text-[var(--white)] transition-colors duration-150 cursor-pointer"
+          className="shrink-0 flex items-center gap-1.5 hover:text-[var(--white)] transition-colors duration-150 cursor-crosshair"
           aria-label="copy contract address"
         >
           <span>$FGH:</span>

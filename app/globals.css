@@ -34,6 +34,7 @@
 
 html {
   scroll-behavior: smooth;
+  cursor: crosshair;
 }
 
 body {
@@ -45,6 +46,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  cursor: crosshair;
 }
 
 /* scanline overlay */
@@ -65,6 +67,16 @@ body::after {
   pointer-events: none;
   z-index: 9999;
   opacity: 0.02;
+}
+
+/* Custom crosshair cursor */
+*, *::before, *::after {
+  cursor: crosshair;
+}
+
+/* Interactive elements keep crosshair */
+a, button, [role="button"], input, select, textarea {
+  cursor: crosshair;
 }
 
 /* scrollbar */
@@ -126,4 +138,24 @@ body::after {
   border: none;
   border-top: 1px solid var(--border);
   margin: 24px 0;
+}
+
+/* All buttons: 2px border-radius only, 150ms hover transition */
+button, a, [role="button"] {
+  border-radius: 2px;
+  transition: all 150ms ease;
+}
+
+/* All links: no underline, green on hover */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--green);
+}
+
+/* tabular-nums for stat counters */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
