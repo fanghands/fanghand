@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { walletConnect } from '@/lib/api/auth'
 
 const BOOT_LINES = [
   'FangHand OS v0.1.0',
@@ -20,6 +21,7 @@ export default function LoginPage() {
   const [lines, setLines] = useState<string[]>([])
   const [bootDone, setBootDone] = useState(false)
   const [connecting, setConnecting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let idx = 0
@@ -35,13 +37,24 @@ export default function LoginPage() {
     return () => clearInterval(interval)
   }, [])
 
-  const handleConnect = () => {
+  const handleConnect = async () => {
     setConnecting(true)
-    setTimeout(() => {
-      localStorage.setItem('fh_token', 'mock_token_' + Date.now())
-      localStorage.setItem('fh_role', 'builder')
+    setError(null)
+    try {
+      const result = await walletConnect({
+        wallet_address: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+        signature: 'mock_signature',
+        message: 'Sign in to FangHand',
+        timestamp: Math.floor(Date.now() / 1000),
+      })
+      localStorage.setItem('fh_token', result.access_token)
+      localStorage.setItem('fh_refresh_token', result.refresh_token)
+      localStorage.setItem('fh_user', JSON.stringify(result.user))
       router.push('/dashboard')
-    }, 1500)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'connection failed')
+      setConnecting(false)
+    }
   }
 
   return (
@@ -59,6 +72,9 @@ export default function LoginPage() {
       {bootDone && (
         <div className="text-center space-y-4">
           <div className="text-[14px] text-[var(--white)]">connect wallet to continue</div>
+          {error && (
+            <div className="text-[12px] text-red-400">{error}</div>
+          )}
           <button
             onClick={handleConnect}
             disabled={connecting}

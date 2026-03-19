@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Hand } from '@/types/hand'
 import { HandConfigForm } from './HandConfigForm'
 import { formatPrice } from '@/lib/utils/formatters'
+import { createActivation } from '@/lib/api/activations'
 
 interface HandActivateModalProps {
   hand: Hand | null
@@ -58,13 +59,20 @@ export function HandActivateModal({ hand, onClose }: HandActivateModalProps) {
     setStep('payment')
   }, [])
 
-  const handleActivate = useCallback(() => {
+  const handleActivate = useCallback(async () => {
+    if (!hand) return
     setStep('confirming')
-    // TODO: Replace with real createActivation API call
-    setTimeout(() => {
+    try {
+      await createActivation({
+        hand_id: hand.id,
+        config,
+        payment_currency: selectedPayment === 'stripe_card' ? 'usd' : selectedPayment,
+      })
       setStep('success')
-    }, 2000)
-  }, [])
+    } catch {
+      setStep('error')
+    }
+  }, [hand, config, selectedPayment])
 
   if (!hand) return null
 

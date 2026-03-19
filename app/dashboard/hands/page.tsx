@@ -2,19 +2,31 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useQuery } from '@tanstack/react-query'
 import { HandStatusBadge } from '@/components/dashboard/HandStatusBadge'
-
-const MOCK_HANDS = [
-  { id: 'act-1', name: 'alpha-scanner', status: 'active' as const, lastRun: '12 min ago', totalRuns: 23 },
-  { id: 'act-2', name: 'tweet-composer', status: 'active' as const, lastRun: '3 min ago', totalRuns: 156 },
-  { id: 'act-3', name: 'data-aggregator', status: 'paused' as const, lastRun: '2h ago', totalRuns: 8 },
-]
+import { fetchActivations } from '@/lib/api/activations'
 
 export default function HandsPage() {
+  const { data } = useQuery({
+    queryKey: ['activations'],
+    queryFn: () => fetchActivations(),
+  })
+
+  const hands = (data?.data ?? []).map((a: any) => ({
+    id: a.id,
+    name: a.hand_name || 'Unknown',
+    status: a.status as 'active' | 'paused' | 'expired',
+    lastRun: a.created_at ? new Date(a.created_at).toLocaleDateString() : '—',
+    totalRuns: 0,
+  }))
+
   return (
     <div className="space-y-4">
       <div className="text-[var(--muted)] border-b border-[var(--border)] pb-2">my hands</div>
-      {MOCK_HANDS.map((hand, i) => (
+      {hands.length === 0 && (
+        <div className="text-[var(--muted)] text-[12px] font-mono">no activated hands yet. visit the <Link href="/marketplace" className="text-[var(--green)] hover:underline">marketplace</Link> to get started.</div>
+      )}
+      {hands.map((hand: any, i: number) => (
         <motion.div
           key={hand.id}
           initial={{ opacity: 0, y: 10 }}
@@ -38,9 +50,6 @@ export default function HandsPage() {
             >
               [manage]
             </Link>
-            <button className="border border-[var(--border)] text-[var(--muted)] px-3 py-1 hover:border-[var(--amber)] hover:text-[var(--amber)] transition-all duration-150">
-              [pause]
-            </button>
           </div>
         </motion.div>
       ))}

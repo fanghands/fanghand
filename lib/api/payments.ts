@@ -1,35 +1,53 @@
-import type { CreditBalance, PaymentSession } from '@/types/payment'
+import { apiClient, BASE_URL } from './client'
+import type { CreditBalance } from '@/types/payment'
 
-// TODO: Replace all mock data with real API calls
-
-export async function createStripeSession(
-  token: string,
-  params: { amount_cents: number; hand_id: string }
-): Promise<{ checkout_url: string }> {
-  // TODO: return apiClient('/v1/payments/stripe', { token, method: 'POST', body: JSON.stringify(params) })
-  void token
-  void params
-  await new Promise((r) => setTimeout(r, 500))
-  return { checkout_url: 'https://checkout.stripe.com/mock-session' }
+export async function createStripeSession(data: {
+  hand_id: string
+  price_id: string
+  success_url: string
+  cancel_url: string
+  config: Record<string, unknown>
+}): Promise<{ checkout_url: string }> {
+  return apiClient<{ checkout_url: string }>('/api/v1/payments/stripe/create-session', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
 }
 
-export async function depositCredit(
-  token: string,
-  txSignature: string,
+export async function getStripePortalUrl(): Promise<{ url: string }> {
+  return apiClient<{ url: string }>('/api/v1/payments/stripe/portal')
+}
+
+export async function depositCredit(data: {
+  tx_signature: string
   lamports: number
-): Promise<CreditBalance> {
-  // TODO: return apiClient('/v1/payments/deposit', { token, method: 'POST', body: JSON.stringify({ tx_signature: txSignature, lamports }) })
-  void token
-  void txSignature
-  await new Promise((r) => setTimeout(r, 600))
-  return { lamports, usd_equivalent: (lamports / 1_000_000_000) * 150 }
+}): Promise<CreditBalance> {
+  return apiClient<CreditBalance>('/api/v1/payments/credit/deposit', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
 }
 
-export async function getCreditBalance(
-  token: string
-): Promise<CreditBalance> {
-  // TODO: return apiClient('/v1/payments/balance', { token })
-  void token
-  await new Promise((r) => setTimeout(r, 200))
-  return { lamports: 500_000_000, usd_equivalent: 75.0 }
+export async function getCreditBalance(): Promise<CreditBalance> {
+  return apiClient<CreditBalance>('/api/v1/payments/credit/balance')
+}
+
+export async function getPaymentHistory(cursor?: string) {
+  const qs = cursor ? `?cursor=${cursor}` : ''
+  return apiClient(`/api/v1/payments/history${qs}`)
+}
+
+export async function getBurnHistory(cursor?: string) {
+  const qs = cursor ? `?cursor=${cursor}` : ''
+  return apiClient(`/api/v1/payments/burns${qs}`)
+}
+
+export async function getBurnStats() {
+  return apiClient<{ total_burned: number; total_events: number; last_burn_at: string | null }>(
+    '/api/v1/payments/burns/stats'
+  )
+}
+
+export function getBurnStreamUrl(): string {
+  return `${BASE_URL}/api/v1/payments/burns/stream`
 }

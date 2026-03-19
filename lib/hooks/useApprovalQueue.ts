@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getApprovalQueue } from '@/lib/api/dashboard'
 
 export interface ApprovalItem {
   id: string
@@ -9,29 +10,38 @@ export interface ApprovalItem {
   timestamp: string
 }
 
-const MOCK_ITEMS: ApprovalItem[] = [
-  {
-    id: 'appr-1',
-    actionType: 'tweet',
-    description: 'Post market summary thread (5 tweets)',
-    timestamp: '2 min ago',
-  },
-  {
-    id: 'appr-2',
-    actionType: 'trade',
-    description: 'Swap 0.5 SOL for USDC on Jupiter',
-    timestamp: '8 min ago',
-  },
-  {
-    id: 'appr-3',
-    actionType: 'api_call',
-    description: 'Send webhook to Discord channel',
-    timestamp: '15 min ago',
-  },
-]
-
 export function useApprovalQueue() {
-  const [items, setItems] = useState<ApprovalItem[]>(MOCK_ITEMS)
+  const [items, setItems] = useState<ApprovalItem[]>([])
+
+  useEffect(() => {
+    let mounted = true
+
+    async function fetch() {
+      try {
+        const data = await getApprovalQueue() as Array<{
+          id: string
+          type: string
+          title: string
+          status: string
+          created_at: string
+        }>
+        if (!mounted) return
+        setItems(
+          data.map((d) => ({
+            id: d.id,
+            actionType: (d.type as ApprovalItem['actionType']) || 'api_call',
+            description: d.title,
+            timestamp: new Date(d.created_at).toLocaleString(),
+          }))
+        )
+      } catch {
+        // Not authenticated or API unavailable
+      }
+    }
+
+    fetch()
+    return () => { mounted = false }
+  }, [])
 
   const approve = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id))
   const reject = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id))

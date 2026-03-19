@@ -1,21 +1,33 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query'
 import { StakeManager } from '@/components/builders/StakeManager'
-
-const STATS = [
-  { label: 'total earnings', value: '$704.25' },
-  { label: 'active hands', value: '4' },
-  { label: 'total activations', value: '89' },
-  { label: 'pending review', value: '1' },
-]
+import { getBuilderProfile } from '@/lib/api/builders'
 
 export default function BuildersOverviewPage() {
+  const { data: builder } = useQuery({
+    queryKey: ['builder-profile'],
+    queryFn: getBuilderProfile as () => Promise<{
+      total_revenue_cents: number
+      total_hands: number
+      total_activations: number
+      tier: string
+      is_verified: boolean
+    }>,
+  })
+
+  const stats = [
+    { label: 'total earnings', value: builder ? `$${(builder.total_revenue_cents / 100).toFixed(2)}` : '—' },
+    { label: 'active hands', value: builder?.total_hands?.toString() ?? '—' },
+    { label: 'total activations', value: builder?.total_activations?.toString() ?? '—' },
+    { label: 'tier', value: builder?.tier ?? '—' },
+  ]
+
   return (
     <div className="space-y-6">
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {STATS.map((stat, i) => (
+        {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 10 }}
@@ -32,41 +44,6 @@ export default function BuildersOverviewPage() {
         ))}
       </div>
 
-      {/* Pending review */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        viewport={{ once: true }}
-      >
-        <div className="text-[var(--muted)] text-[12px] mb-3 border-b border-[var(--border)] pb-2">
-          pending review
-        </div>
-        <div className="border border-[var(--amber)] bg-[var(--surface)] p-4 font-mono text-[12px]">
-          <div className="flex items-center justify-between">
-            <span className="text-[var(--white)]">portfolio-tracker</span>
-            <span className="text-[var(--amber)]">under review</span>
-          </div>
-          <div className="text-[var(--muted)] mt-1">submitted 3 days ago</div>
-        </div>
-      </motion.div>
-
-      {/* Earnings chart placeholder */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        viewport={{ once: true }}
-      >
-        <div className="text-[var(--muted)] text-[12px] mb-3 border-b border-[var(--border)] pb-2">
-          recent earnings
-        </div>
-        <div className="border border-[var(--border)] bg-[var(--surface)] p-4 h-[150px] flex items-center justify-center text-[var(--muted-2)] font-mono text-[12px]">
-          [earnings chart area]
-        </div>
-      </motion.div>
-
-      {/* Staking summary */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}

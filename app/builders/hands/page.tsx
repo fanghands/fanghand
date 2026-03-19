@@ -2,16 +2,29 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useQuery } from '@tanstack/react-query'
 import { ReviewStatusCard } from '@/components/builders/ReviewStatusCard'
-
-const MOCK_HANDS = [
-  { id: 'bh-1', name: 'alpha-scanner', status: 'approved' as const, activations: 34, earnings: '$245.00' },
-  { id: 'bh-2', name: 'tweet-composer', status: 'approved' as const, activations: 52, earnings: '$380.50' },
-  { id: 'bh-3', name: 'portfolio-tracker', status: 'pending' as const, activations: 0, earnings: '$0.00' },
-  { id: 'bh-4', name: 'sentiment-bot', status: 'rejected' as const, activations: 0, earnings: '$0.00', reason: 'insufficient documentation' },
-]
+import { getBuilderHands } from '@/lib/api/builders'
 
 export default function BuilderHandsPage() {
+  const { data } = useQuery({
+    queryKey: ['builder-hands'],
+    queryFn: getBuilderHands as () => Promise<{
+      data: Array<{
+        id: string; name: string; status: string;
+        total_activations: number; slug: string;
+      }>
+    }>,
+  })
+
+  const hands = (data?.data ?? []).map((h: any) => ({
+    id: h.id,
+    name: h.name,
+    status: h.status === 'live' ? 'approved' : h.status === 'review' ? 'pending' : h.status,
+    activations: h.total_activations || 0,
+    earnings: '—',
+  }))
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -25,7 +38,10 @@ export default function BuilderHandsPage() {
           [+ submit new]
         </Link>
       </div>
-      {MOCK_HANDS.map((hand, i) => (
+      {hands.length === 0 && (
+        <div className="text-[var(--muted)] text-[12px] font-mono">no submitted hands yet.</div>
+      )}
+      {hands.map((hand: any, i: number) => (
         <motion.div
           key={hand.id}
           initial={{ opacity: 0, y: 10 }}
@@ -36,19 +52,11 @@ export default function BuilderHandsPage() {
         >
           <div className="flex items-start justify-between mb-3">
             <span className="text-[var(--white)] text-[14px]">{hand.name}</span>
-            <ReviewStatusCard status={hand.status} reason={hand.reason} />
+            <ReviewStatusCard status={hand.status} />
           </div>
           <div className="flex items-center gap-6 text-[var(--muted)] mb-3">
             <span>activations: {hand.activations}</span>
             <span>earnings: {hand.earnings}</span>
-          </div>
-          <div className="flex gap-2">
-            <button className="border border-[var(--border)] text-[var(--muted)] px-3 py-1 hover:border-[var(--green)] hover:text-[var(--green)] transition-all duration-150">
-              [edit]
-            </button>
-            <button className="border border-[var(--border)] text-[var(--muted)] px-3 py-1 hover:border-[var(--green)] hover:text-[var(--green)] transition-all duration-150">
-              [manage]
-            </button>
           </div>
         </motion.div>
       ))}

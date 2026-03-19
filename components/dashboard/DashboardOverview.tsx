@@ -1,18 +1,32 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query'
+import { getDashboardOverview } from '@/lib/api/dashboard'
 
-const STATS = [
-  { label: 'active hands', value: '3', trend: '+1 this week' },
-  { label: 'total runs', value: '47', trend: '+12 this week' },
-  { label: 'earned', value: '$12.50', trend: '+$3.20 this week' },
-  { label: 'FGH balance', value: '15,000', trend: 'staked: 5,000' },
-]
+interface Overview {
+  active_hands_count: number
+  total_runs: number
+  total_spent_cents: number
+  fgh_balance: number
+}
 
 export function DashboardOverview() {
+  const { data } = useQuery<Overview>({
+    queryKey: ['dashboard-overview'],
+    queryFn: getDashboardOverview as () => Promise<Overview>,
+  })
+
+  const stats = [
+    { label: 'active hands', value: data?.active_hands_count?.toString() ?? '—' },
+    { label: 'total runs', value: data?.total_runs?.toString() ?? '—' },
+    { label: 'spent', value: data ? `$${(data.total_spent_cents / 100).toFixed(2)}` : '—' },
+    { label: 'FGH balance', value: data?.fgh_balance?.toLocaleString() ?? '—' },
+  ]
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-      {STATS.map((stat, i) => (
+      {stats.map((stat, i) => (
         <motion.div
           key={stat.label}
           initial={{ opacity: 0, y: 10 }}
@@ -25,7 +39,6 @@ export function DashboardOverview() {
             {stat.label}
           </div>
           <div className="text-[20px] text-[var(--white)] tabular-nums">{stat.value}</div>
-          <div className="text-[10px] text-[var(--green)] mt-1">{stat.trend}</div>
         </motion.div>
       ))}
     </div>
