@@ -1,6 +1,5 @@
 import { HandDetailPageContent } from '@/components/marketplace/HandDetailPage'
 
-// Required for static export with dynamic routes
 export function generateStaticParams() {
   return [
     { slug: 'collector-hand' },

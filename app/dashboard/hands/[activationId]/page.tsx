@@ -1,4 +1,4 @@
-import { ActivationDetail } from '@/components/dashboard/ActivationDetail'
+import { ActivationDetailWrapper } from './ActivationDetailWrapper'
 
 export function generateStaticParams() {
   return [
@@ -8,6 +8,7 @@ export function generateStaticParams() {
   ]
 }
 
-export default function ActivationDetailPage() {
-  return <ActivationDetail />
+export default async function ActivationDetailPage({ params }: { params: Promise<{ activationId: string }> }) {
+  const { activationId } = await params
+  return <ActivationDetailWrapper activationId={activationId} />
 }

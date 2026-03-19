@@ -34,3 +34,6 @@ fanghand_backend_technical.md
 
 # brand kit (assets managed separately)
 fanghand-brand-kit/
+.venv/
+__pycache__/
+backend/
